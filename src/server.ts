@@ -9,6 +9,8 @@ connectDB()
 
 const app=express()
 
+app.use(express.json())//para poder crear
+
 app.use('/api/projects',projectRoutes)
 
 export default app 

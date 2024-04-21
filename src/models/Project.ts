@@ -3,7 +3,7 @@ import mongoose,{Schema,Document} from "mongoose";
 
 export type ProjectType=Document & {
     projectName:string
-    clienttName:string
+    clientName:string
     description:string
 }
 
