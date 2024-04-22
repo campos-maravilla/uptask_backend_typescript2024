@@ -43,7 +43,7 @@ ProjectController.deleteProject)
 //Routes for Tasks
 // /api/proyects/12345/tasks
 router.post('/:projectId/tasks',
-    TaskController.createProject
+    TaskController.createTask
 )
 
 export default router 
