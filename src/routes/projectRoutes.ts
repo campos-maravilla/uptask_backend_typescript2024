@@ -53,4 +53,8 @@ handleInputErrors,
     TaskController.createTask
 )
 
+router.get('/:projectId/tasks',
+    validateProjectExists,
+    TaskController.getProjectTasks
+)
 export default router 
