@@ -14,6 +14,7 @@ export class ProjectController{
         }
     }
     static getAllProjects=async(req:Request,res:Response)=>{
+       
        try {
         const projects=await Project.find({})
         res.json(projects)
@@ -21,4 +22,59 @@ export class ProjectController{
         console.log(error)
        }
     }
+    
+    static geProjectById=async(req:Request,res:Response)=>{
+        const {id}=req.params
+
+        try {
+         const project=await Project.findById(id)
+         
+          if(!project){
+            return res.status(404).json({
+              error:'Proyecto No Encontrado'
+            })
+          }
+         
+         res.json(project)
+        } catch (error) {
+         console.log(error)
+        }
+     }
+     
+     static updateProject=async(req:Request,res:Response)=>{
+        const {id}=req.params
+
+        try {
+       const project=await Project.findByIdAndUpdate(id,req.body)
+       if(!project){
+        return res.status(404).json({
+          error:'Proyecto No Encontrado'
+        })
+      }
+       await project.save()
+       res.send('Proyecto Actualizado')
+        } catch (error) {
+            console.log(error)
+        }
+     }
+     
+     static deleteProject=async(req:Request,res:Response)=>{
+        const {id}=req.params
+
+        try {
+      const project=await Project.findById(id)
+      
+      if(!project){
+        return res.status(404).json({
+          error:'Proyecto No Encontrado'
+        })
+      }
+      
+      await project.deleteOne()
+      res.send('Proyecto Eliminado')
+        } catch (error) {
+            console.log(error)
+      
+        }
+     }
 }
