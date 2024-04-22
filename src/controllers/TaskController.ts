@@ -12,8 +12,8 @@ export class TaskController{
             //req=>viene de middleware/project.ts
             task.project=req.project.id
             req.project.tasks.push(task.id)//agregando la tarea al proyecto
-            await task.save()
-            await req.project.save()
+            
+         await   Promise.allSettled([task.save(),req.project.save()])
             res.send('Tarea creada correctamente')
         } catch (error) {
             console.log(error)
