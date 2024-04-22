@@ -45,6 +45,11 @@ ProjectController.deleteProject)
 // /api/proyects/12345/tasks
 router.post('/:projectId/tasks',
 validateProjectExists,
+body('name')
+.notEmpty().withMessage('El Nombre de la Tarea es Obligatorio'),
+body('description')
+.notEmpty().withMessage('La Descripcion del Proyecto es Obligatoria'),
+handleInputErrors,
     TaskController.createTask
 )
 
