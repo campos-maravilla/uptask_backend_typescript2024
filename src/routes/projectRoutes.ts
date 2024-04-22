@@ -2,6 +2,7 @@ import { Router } from "express";
 import { ProjectController } from "../controllers/ProjectController";
 import { body,param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
+import { TaskController } from "../controllers/TaskController";
 
 const router=Router()
 
@@ -37,5 +38,12 @@ router.delete('/:id',
 param('id').isMongoId().withMessage('ID no vàlido'),
 handleInputErrors,
 ProjectController.deleteProject)
+
+// va aqui porque una tarea se tiene que agregar a un proyecto existente
+//Routes for Tasks
+// /api/proyects/12345/tasks
+router.post('/:projectId/tasks',
+    TaskController.createProject
+)
 
 export default router 
