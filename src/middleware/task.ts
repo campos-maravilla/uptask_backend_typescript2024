@@ -1,29 +1,30 @@
 
+
 import type { NextFunction, Request,Response } from "express";
-import Project, { IProject } from "../models/Project";
+import Task, { ITask } from "../models/Task";
 
 //esto es de typescript 
 declare global {
     namespace Express {
         interface Request {
-            project:IProject
+            task:ITask
         }
     }
 }
 
-export async function projectExists(req:Request,res:Response,next:NextFunction){
+export async function taskExists(req:Request,res:Response,next:NextFunction){
     
     try {
         //proyectId=>viene de proyectRoutes(router.post('/:projectId/tasks'))
-        const {projectId}=req.params
-        const project=await Project.findById(projectId)
-        if(!project){
+        const {taskId}=req.params
+        const task=await Task.findById(taskId)
+        if(!task){
             return res.status(404).json({
-              error:'Proyecto No Encontrado'
+              error:'Tarea No Encontrada'
             })
           }
           //ya esta pasando el proyecto en el request('/:projectId/tasks')
-          req.project=project
+          req.task=task
           next()
     } catch (error) {
         res.status(500).json({error:'Hubo un error'})

@@ -3,7 +3,8 @@ import { ProjectController } from "../controllers/ProjectController";
 import { body,param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
-import { validateProjectExists } from "../middleware/project";
+import { projectExists} from "../middleware/project";
+import { taskExists } from "../middleware/task";
 
 const router=Router()
 
@@ -43,7 +44,7 @@ ProjectController.deleteProject)
 // va aqui porque una tarea se tiene que agregar a un proyecto existente
 //Routes for Tasks
 // /api/proyects/12345/tasks
-router.param('projectId',validateProjectExists)
+router.param('projectId',projectExists)
 router.post('/:projectId/tasks',
 
 body('name')
@@ -55,10 +56,10 @@ handleInputErrors,
 )
 
 router.get('/:projectId/tasks',
-   
     TaskController.getProjectTasks
 )
 
+router.param('taskId',taskExists)
 router.get('/:projectId/tasks/:taskId',
 param('taskId').isMongoId().withMessage('ID no vàlido'),
 handleInputErrors,
