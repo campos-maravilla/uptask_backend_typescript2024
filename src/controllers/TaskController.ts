@@ -29,4 +29,29 @@ export class TaskController{
             res.status(500).json({error:'Hubo un error'})
         }
     }
+    
+    static getTaskById=async(req:Request,res:Response)=>{
+        try {
+            const {taskId}=req.params
+            const task=await Task.findById(taskId)
+           /*  if(!task){
+                return res.status(404).json({
+                  error:'Proyecto No Encontrado'
+                })
+              } */
+             // console.log(task.project.toString())
+             // console.log(req.project.id)
+             if(task.project.toString() !== req.project.id){
+                const error=new Error('Acción no válida')
+                return res.status(400).json({error:error.message})
+            } 
+            res.json({task})
+        } catch (error) {
+             if (error.kind === 'ObjectId') {
+                const error = new Error('Tarea no Encontrada')
+                return res.status(404).json({ msg: error.message })
+            } 
+           // res.status(500).json({error:'Hubo un error'})
+        }
+    }
 }

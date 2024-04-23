@@ -36,7 +36,7 @@ handleInputErrors,
 ProjectController.updateProject)
 
 router.delete('/:id',
-param('id').isMongoId().withMessage('ID no vàlido'),
+//param('id').isMongoId().withMessage('ID no vàlido'),
 handleInputErrors,
 ProjectController.deleteProject)
 
@@ -57,4 +57,10 @@ router.get('/:projectId/tasks',
     validateProjectExists,
     TaskController.getProjectTasks
 )
+
+router.get('/:projectId/tasks/:taskId',
+    validateProjectExists,
+    TaskController.getTaskById
+)
+
 export default router 
