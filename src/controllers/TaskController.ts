@@ -86,7 +86,7 @@ export class TaskController{
     static deleteTask=async(req:Request,res:Response)=>{
         try {
             const {taskId}=req.params
-            const task=await Task.findById(taskId,req.body)
+            const task=await Task.findById(taskId)
              if(!task){
                 return res.status(404).json({
                   error:'Tarea No Encontrada'
@@ -105,6 +105,26 @@ export class TaskController{
                 const error = new Error('Tarea no Encontrada')
                 return res.status(404).json({ msg: error.message })
             }  */
+            res.status(500).json({error:'Hubo un error'})
+        }
+    }
+    
+    static updateStatus=async(req:Request,res:Response)=>{
+        
+        try {
+            const {taskId}=req.params
+            
+            const task=await Task.findById(taskId)
+            if(!task){
+                return res.status(404).json({
+                    error:'Tarea No Encontrada'
+                })
+            } 
+            const {status}=req.body
+            task.status=status 
+            await task.save()
+            res.send('Tarea Actualizada')
+        } catch (error) {
             res.status(500).json({error:'Hubo un error'})
         }
     }
