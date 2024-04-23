@@ -36,7 +36,7 @@ handleInputErrors,
 ProjectController.updateProject)
 
 router.delete('/:id',
-//param('id').isMongoId().withMessage('ID no vàlido'),
+param('id').isMongoId().withMessage('ID no vàlido'),
 handleInputErrors,
 ProjectController.deleteProject)
 
@@ -63,6 +63,16 @@ router.get('/:projectId/tasks/:taskId',
 param('taskId').isMongoId().withMessage('ID no vàlido'),
 handleInputErrors,
     TaskController.getTaskById
+)
+
+router.put('/:projectId/tasks/:taskId',
+param('taskId').isMongoId().withMessage('ID no vàlido'),
+body('name')
+.notEmpty().withMessage('El Nombre de la Tarea es Obligatorio'),
+body('description')
+.notEmpty().withMessage('La Descripcion del Proyecto es Obligatoria'),
+handleInputErrors,
+    TaskController.updateTask
 )
 
 export default router 

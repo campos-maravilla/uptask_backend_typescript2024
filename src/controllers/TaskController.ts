@@ -54,4 +54,29 @@ export class TaskController{
            // res.status(500).json({error:'Hubo un error'})
         }
     }
+    
+    static updateTask=async(req:Request,res:Response)=>{
+        try {
+            const {taskId}=req.params
+            const task=await Task.findByIdAndUpdate(taskId,req.body)
+             if(!task){
+                return res.status(404).json({
+                  error:'Tarea No Encontrada'
+                })
+              } 
+             // console.log(task.project.toString())
+             // console.log(req.project.id)
+             if(task.project.toString() !== req.project.id){
+                const error=new Error('Acción no válida')
+                return res.status(400).json({error:error.message})
+            } 
+            res.send('Tarea actualizada correctamente')
+        } catch (error) {
+             /* if (error.kind === 'ObjectId') {
+                const error = new Error('Tarea no Encontrada')
+                return res.status(404).json({ msg: error.message })
+            }  */
+            res.status(500).json({error:'Hubo un error'})
+        }
+    }
 }
