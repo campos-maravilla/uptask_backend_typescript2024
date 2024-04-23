@@ -58,19 +58,48 @@ export class TaskController{
     static updateTask=async(req:Request,res:Response)=>{
         try {
             const {taskId}=req.params
-            const task=await Task.findByIdAndUpdate(taskId,req.body)
+            const task=await Task.findById(taskId)
              if(!task){
                 return res.status(404).json({
                   error:'Tarea No Encontrada'
                 })
               } 
-             // console.log(task.project.toString())
-             // console.log(req.project.id)
+            
              if(task.project.toString() !== req.project.id){
                 const error=new Error('Acción no válida')
                 return res.status(400).json({error:error.message})
             } 
+            task.name=req.body.name
+            task.description=req.body.description
+            await task.save()
             res.send('Tarea actualizada correctamente')
+            
+        } catch (error) {
+             /* if (error.kind === 'ObjectId') {
+                const error = new Error('Tarea no Encontrada')
+                return res.status(404).json({ msg: error.message })
+            }  */
+            res.status(500).json({error:'Hubo un error'})
+        }
+    }
+    
+    static deleteTask=async(req:Request,res:Response)=>{
+        try {
+            const {taskId}=req.params
+            const task=await Task.findById(taskId,req.body)
+             if(!task){
+                return res.status(404).json({
+                  error:'Tarea No Encontrada'
+                })
+              } 
+           /*   if(task.project.toString() !== req.project.id){
+                const error=new Error('Acción no válida')
+                return res.status(400).json({error:error.message})
+            }  */
+            req.project.tasks= req.project.tasks.filter(task=>task.toString() !==taskId)
+           
+            await Promise.allSettled([task.deleteOne(),req.project.save()])
+            res.send('Tarea Eliminada Correctamente')
         } catch (error) {
              /* if (error.kind === 'ObjectId') {
                 const error = new Error('Tarea no Encontrada')
