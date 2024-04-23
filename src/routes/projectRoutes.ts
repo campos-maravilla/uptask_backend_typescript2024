@@ -25,7 +25,7 @@ handleInputErrors,
 ProjectController.geProjectById)
 
 router.put('/:id',
-param('id').isMongoId().withMessage('ID no vàlido'),
+//param('id').isMongoId().withMessage('ID no vàlido'),
 body('projectName')
 .notEmpty().withMessage('El Nombre del Proyecto es Obligatorio'),
 body('clientName')
@@ -43,8 +43,9 @@ ProjectController.deleteProject)
 // va aqui porque una tarea se tiene que agregar a un proyecto existente
 //Routes for Tasks
 // /api/proyects/12345/tasks
+router.param('projectId',validateProjectExists)
 router.post('/:projectId/tasks',
-validateProjectExists,
+
 body('name')
 .notEmpty().withMessage('El Nombre de la Tarea es Obligatorio'),
 body('description')
@@ -54,12 +55,13 @@ handleInputErrors,
 )
 
 router.get('/:projectId/tasks',
-    validateProjectExists,
+   
     TaskController.getProjectTasks
 )
 
 router.get('/:projectId/tasks/:taskId',
-    validateProjectExists,
+param('taskId').isMongoId().withMessage('ID no vàlido'),
+handleInputErrors,
     TaskController.getTaskById
 )
 
