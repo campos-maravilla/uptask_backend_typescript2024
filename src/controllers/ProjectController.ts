@@ -51,7 +51,7 @@ export class ProjectController{
           error:'Proyecto No Encontrado'
         })
       }
-      project.projectName=req.body.clientName
+      project.projectName=req.body.projectName
       project.clientName=req.body.clientName
       project.description=req.body.description
        await project.save()
