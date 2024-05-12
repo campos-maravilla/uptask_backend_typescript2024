@@ -5,6 +5,7 @@ export class ProjectController{
     
     static createProjects=async(req:Request,res:Response)=>{
         const project=new Project(req.body)
+
         try {
            // await Project.create(req.body)
             await project.save()
