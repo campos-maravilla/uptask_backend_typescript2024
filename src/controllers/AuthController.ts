@@ -98,7 +98,7 @@ export class AuthController {
                 const error = new Error('Password Incorrecto')
                 return res.status(401).json({ error: error.message })
             }
-            const token = generateJWT()
+            const token = generateJWT({ id: user._id })
             res.send(token)
         } catch (error) {
             res.status(500).json({ error: 'Hubo un error' })
