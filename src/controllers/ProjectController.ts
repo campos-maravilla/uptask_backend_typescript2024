@@ -65,6 +65,13 @@ export class ProjectController {
           error: 'Proyecto No Encontrado'
         })
       }
+
+      if (project.manager.toString() !== req.user.id.toString()) {
+        return res.status(404).json({
+          error: 'Solo el manager puede actualizar un Proyecto'
+        })
+      }
+
       project.projectName = req.body.projectName
       project.clientName = req.body.clientName
       project.description = req.body.description
@@ -84,6 +91,12 @@ export class ProjectController {
       if (!project) {
         return res.status(404).json({
           error: 'Proyecto No Encontrado'
+        })
+      }
+
+      if (project.manager.toString() !== req.user.id.toString()) {
+        return res.status(404).json({
+          error: 'Solo el manager puede eliminar un Proyecto'
         })
       }
 
