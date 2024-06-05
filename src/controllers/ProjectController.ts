@@ -44,7 +44,11 @@ export class ProjectController {
           error: 'Proyecto No Encontrado'
         })
       }
-
+      if (project.manager.toString() !== req.user.id.toString()) {
+        return res.status(404).json({
+          error: 'Accion no vàlida'
+        })
+      }
       res.json(project)
     } catch (error) {
       console.log(error)

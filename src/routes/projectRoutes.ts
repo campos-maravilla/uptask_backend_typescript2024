@@ -9,8 +9,10 @@ import { authenticate } from "../middleware/auth";
 
 const router = Router()
 
+//para proteger todas las rutas 
+router.use(authenticate)
+
 router.post('/',
-    authenticate,
     body('projectName')
         .notEmpty().withMessage('El Nombre del Proyecto es Obligatorio'),
     body('clientName')
@@ -20,7 +22,7 @@ router.post('/',
     handleInputErrors,
     ProjectController.createProjects)
 
-router.get('/', authenticate, ProjectController.getAllProjects)
+router.get('/', ProjectController.getAllProjects)
 
 router.get('/:id',
     param('id').isMongoId().withMessage('ID no vàlido'),
