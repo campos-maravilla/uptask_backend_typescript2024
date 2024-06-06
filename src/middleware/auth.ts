@@ -30,6 +30,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
             // console.log(user)
             if (user) {
                 req.user = user
+                next()
             } else {
                 res.status(500).json({ error: 'Token no vàlido' })
             }
@@ -38,5 +39,4 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
         res.status(500).json({ error: 'Token no vàlido' })
     }
 
-    next()
 } 
