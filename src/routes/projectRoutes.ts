@@ -97,11 +97,27 @@ router.post('/:projectId/tasks/:taskId/status',
     TaskController.updateStatus
 )
 /** Routes for teams **/
+//buscar un miembro
 router.post('/:projectId/team/find',
     body('email')
         .isEmail().toLowerCase().withMessage('E-mail no vàlido'),
     handleInputErrors,
     TeamMemberController.findMemberByEmail
+)
+
+//agregar un miembro al proyecto
+router.post('/:projectId/team',
+    body('id')
+        .isMongoId().withMessage('ID no vàlido'),
+    handleInputErrors,
+    TeamMemberController.addMemberById
+)
+//eliminar un miembro al proyecto
+router.delete('/:projectId/team',
+    body('id')
+        .isMongoId().withMessage('ID no vàlido'),
+    handleInputErrors,
+    TeamMemberController.removeMemberById
 )
 
 export default router 
