@@ -120,4 +120,9 @@ router.delete('/:projectId/team',
     TeamMemberController.removeMemberById
 )
 
+//Obtener todos los miembros
+router.get('/:projectId/team',
+    TeamMemberController.getProjectTeam
+)
+
 export default router 
