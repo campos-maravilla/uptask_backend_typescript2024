@@ -24,7 +24,9 @@ export class ProjectController {
     try {
       const projects = await Project.find({
         $or: [
-          { manager: { $in: req.user.id } }
+          { manager: { $in: req.user.id } },
+          //si eres parte del equipo ,puedes ver los proyectos
+          { team: { $in: req.user.id } }
         ]
       })
       res.json(projects)
@@ -44,7 +46,8 @@ export class ProjectController {
           error: 'Proyecto No Encontrado'
         })
       }
-      if (project.manager.toString() !== req.user.id.toString()) {
+      //&& !project.team.includes(req.user.id)=para que el colaborador pueda ver el proyecto
+      if (project.manager.toString() !== req.user.id.toString() && !project.team.includes(req.user.id)) {
         return res.status(404).json({
           error: 'Accion no vàlida'
         })
