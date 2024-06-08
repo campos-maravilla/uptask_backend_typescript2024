@@ -113,8 +113,8 @@ router.post('/:projectId/team',
     TeamMemberController.addMemberById
 )
 //eliminar un miembro al proyecto
-router.delete('/:projectId/team',
-    body('id')
+router.delete('/:projectId/team/:userId',
+    param('userId')
         .isMongoId().withMessage('ID no vàlido'),
     handleInputErrors,
     TeamMemberController.removeMemberById
