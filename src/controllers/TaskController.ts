@@ -32,8 +32,8 @@ export class TaskController {
 
     static getTaskById = async (req: Request, res: Response) => {
         try {
-
-            res.json(req.task)
+            const task = await (await Task.findById(req.task.id)).populate({ path: 'completedBy', select: 'id name email' })
+            res.json(task)
         } catch (error) {
             if (error.kind === 'ObjectId') {
                 const error = new Error('Tarea no Encontrada')
