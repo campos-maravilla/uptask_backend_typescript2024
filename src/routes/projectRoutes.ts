@@ -31,8 +31,13 @@ router.get('/:id',
     handleInputErrors,
     ProjectController.geProjectById)
 
-router.put('/:id',
-    //param('id').isMongoId().withMessage('ID no vàlido'),
+// va aqui porque una tarea se tiene que agregar a un proyecto existente
+//Routes for Tasks
+// /api/proyects/12345/tasks
+router.param('projectId', projectExists)
+
+router.put('/:projectId',
+    param('projectId').isMongoId().withMessage('ID no vàlido'),
     body('projectName')
         .notEmpty().withMessage('El Nombre del Proyecto es Obligatorio'),
     body('clientName')
@@ -40,17 +45,16 @@ router.put('/:id',
     body('description')
         .notEmpty().withMessage('La Descripcion del Proyecto es Obligatoria'),
     handleInputErrors,
+    hasAuthorization,
     ProjectController.updateProject)
 
-router.delete('/:id',
-    param('id').isMongoId().withMessage('ID no vàlido'),
+router.delete('/:projectId',
+    //param('id').isMongoId().withMessage('ID no vàlido'),
     handleInputErrors,
+    hasAuthorization,
     ProjectController.deleteProject)
 
-// va aqui porque una tarea se tiene que agregar a un proyecto existente
-//Routes for Tasks
-// /api/proyects/12345/tasks
-router.param('projectId', projectExists)
+
 router.post('/:projectId/tasks',
     hasAuthorization,
     body('name')
